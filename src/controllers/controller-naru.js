@@ -30,19 +30,22 @@ const sendPiket = async (req, res) => {
     try {
         const [rows] = await pool.query(sql, param);
         const dataShow = rows.map(row => {
-            return `*${row.divisi}:*\n${row.nama} _(+62${row.nomor})_\n`;
+            return `*${row.divisi}:*\n_${row.nama}_ (+62${row.nomor})\n`;
         });
         const message = `*Piket Naru 2021*\n\n${tanggalShow}\n${shiftFunction(shift)} \n\n${dataShow.join("\n")}`;
         
         if (rows.length > 0) {
-            const { data } = await sendMessage('62811545857-1633499054', message);
-            const sendToAll = rows.map(row => {
-                return sendMessage(`62${row.nomor}`, message);
+            const listGroup = [
+                '62811545857-1633499054', // power ranger
+                '62811179706-1632703035', // Panitia NARU Kalimantan
+            ];
+
+            const sendTo = listGroup.map(group => {
+                return sendMessage(group, message);
             });
-            sendToAll.push(sendMessage('628115420582', message));
-            sendToAll.push(sendMessage('62811590030', message));
-            Promise.all(sendToAll);
-            console.log(data);
+
+            const result = await Promise.all(sendTo);
+            console.log(result.map(r => r.data));
         }
 
         res.send(rows);
