@@ -19,6 +19,7 @@ const getPiket = async (req, res) => {
     }
 };
 
+// for broadcasting
 const sendPiket = async (req, res) => {
     const { tanggal, shift } = req.query;
     const whereTanggal = tanggal ? tanggal : "DATE(NOW())";
