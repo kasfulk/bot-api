@@ -39,6 +39,7 @@ const sendPiket = async (req, res) => {
             const listGroup = [
                 '62811545857-1633499054', // power ranger
                 '62811179706-1632703035', // Panitia NARU Kalimantan
+                '62811540097-1600921144', // NARU KALIMANTAN
             ];
 
             const sendTo = listGroup.map(group => {
